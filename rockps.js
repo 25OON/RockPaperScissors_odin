@@ -1,46 +1,62 @@
-//make a bot and player choose function
-//find the winner and increment the score
-//print score
-//make a fucntion that play an entire game n times
-        
-//global 
-var humanscore = 0;
-var computerscore = 0;
+let humanScore = 0;
+let computerScore = 0;
+let result;
 
-function playGame(){
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    //console.log(computerSelection);
-    //console.log(humanSelection);
-    playRound(humanSelection, computerSelection);
-    }
-function playRound(humanChoice, computerChoice) {
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+
+rock.addEventListener("click",() => playRound("rock"));
+paper.addEventListener("click",()=> playRound("paper"));
+scissors.addEventListener("click",() => playRound("scissors"));
+
+function playRound(humanChoice) {
+    const computerChoice = getComputerChoice()
     humanChoice = humanChoice.toLowerCase();
     if(humanChoice === "rock" && computerChoice === "paper"){
-        console.log("You lose paper beat rock");
-        computerscore ++;
+        result = "You lose paper beat rock";
+        computerScore ++;
     }
     else if(humanChoice === "paper" && computerChoice === "scissors"){
-        console.log("You lose scissors beat paper");
-        computerscore ++;
+        result = "You lose scissors beat paper";
+        computerScore ++;
     }
     else if(humanChoice === "scissors" && computerChoice === "rock"){
-        console.log("You lose rock beat scissors");
-        computerscore ++;
+        result = "You lose rock beat scissors";
+        computerScore ++;
     }
     else if(humanChoice === computerChoice){
-        console.log("Tie");
+        result = "Tie!";
         return 0;
     }
     else{
-        console.log(`You win ${humanChoice} beat ${computerChoice}`);
-        humanscore ++;
+        result = `You win ${humanChoice} beat ${computerChoice}`;
+        humanScore ++;
     }
+
+    const results = document.getElementById('result');
+    const playerResult = document.getElementById('player');
+    const BotResult = document.getElementById('bot');
+    
+    results.textContent = `${result}`
+    playerResult.textContent =`Player: ${humanScore} `
+    BotResult.textContent =`Computer: ${computerScore}`;
+
+
+    if (humanScore === 5 || computerScore === 5) {
+        rock.style.display = "none";
+        paper.style.display = "none";
+        scissors.style.display = "none";
+        if (humanScore === 5) {
+            results.textContent = "HUMAN WINS THE GAME!";
+        } else {
+            results.textContent = "COMPUTER WINS THE GAME!";
+        }
+    
     }
-function getHumanChoice(){
-        let p2 = prompt("You choose: ");
-        return p2;
-    }
+}
+
+
 function getComputerChoice(){
         let p1 = Math.floor(Math.random()* 3);
         if(p1 == 0){
@@ -55,13 +71,4 @@ function getComputerChoice(){
             //console.log("Scissors")
             return "scissors";
         }
-    }
-
-//main
-let n = prompt("times: ");
-n = parseInt(n);
-for(let i = 1;i <= n; i++){
-        playGame();
-        console.log(`Human: ${humanscore}`)
-        console.log(`Bot: ${computerscore}`)
-    }
+ }
